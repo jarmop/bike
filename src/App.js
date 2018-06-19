@@ -3,6 +3,7 @@ import 'leaflet/dist/leaflet.css';
 import L from 'leaflet';
 
 import './App.css';
+import * as api from './api';
 
 const CONTAINER_ID = 'map';
 
@@ -19,15 +20,38 @@ const buildMap = () => {
 };
 
 class App extends Component {
+  constructor() {
+    super();
+
+    this.state = {
+      stations: [],
+    }
+  }
 
   componentDidMount() {
-    buildMap();
+    // buildMap();
+    api.fetchData().then(stations =>
+      this.setState({
+        stations: stations,
+      })
+    );
+
   }
 
   render() {
     return (
-        <div id="map" className="map"></div>
+      <div>
+        {this.state.stations.map(station =>
+          <div key={station.extra.uid}>
+            {station.name}: {station.free_bikes}
+          </div>
+        )}
+      </div>
     );
+
+    // return (
+    //     <div id="map" className="map"></div>
+    // );
   }
 }
 

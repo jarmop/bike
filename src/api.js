@@ -1,6 +1,6 @@
 const URL = 'https://api.citybik.es/v2/networks/citybikes-helsinki';
 
-const STATION_IDS = ['021', '030'];
+const STATION_IDS = ['021', '023', '030'];
 
 export const fetchData = () => {
   return fetch(URL).then(resposnse => resposnse.json()).then(json => {

@@ -24,28 +24,46 @@ class App extends Component {
     super();
 
     this.state = {
-      stations: [],
+      stationsDigitransit: [],
+      stationsCitybik: [],
     }
   }
 
   componentDidMount() {
     // buildMap();
-    api.fetchData().then(stations =>
+
+    api.fetchDigitransit().then(stations =>
       this.setState({
-        stations: stations,
+        stationsDigitransit: stations,
       })
     );
 
+    api.fetchCitybik().then(stations =>
+      this.setState({
+        stationsCitybik: stations,
+      })
+    );
   }
 
   render() {
     return (
       <div>
-        {this.state.stations.map(station =>
-          <div key={station.extra.uid}>
-            {station.name}: {station.free_bikes}
-          </div>
-        )}
+        <h3>api.digitransit.fi</h3>
+        <div>
+          {this.state.stationsDigitransit.map(station =>
+            <div key={station.id}>
+              {station.name}: {station.bikesAvailable}
+            </div>
+          )}
+        </div>
+        <h3>api.citybik.es</h3>
+        <div>
+          {this.state.stationsCitybik.map(station =>
+            <div key={station.id}>
+              {station.name}: {station.bikesAvailable}
+            </div>
+          )}
+        </div>
       </div>
     );
 

@@ -7,7 +7,7 @@ import './Map.css';
 import * as api from './api';
 
 const CONTAINER_ID = 'map';
-const BIKE_STATION_DIAMETER = 15;
+const BIKE_STATION_DIAMETER = 18;
 const CENTER_LATITUDE = 24.925;
 const CENTER_LONGITUDE = 60.168;
 

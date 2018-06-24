@@ -6,18 +6,27 @@ type Station = {
   id: string,
   name: string,
   bikesAvailable: int,
+  lat: float,
+  lon: float,
 };
 
-export const fetchFavoriteStations = () => {
+export const fetchStations = () => {
   return fetch(URL_DIGITRANSIT).then(res => res.json()).then(json => {
     let stations: Array<Station> = json.stations
-      .filter(station => STATION_IDS.includes(station.id))
-      .map(station => ({
-        id: station.id,
-        name: station.name,
-        bikesAvailable: station.bikesAvailable,
-      }));
+        .map(station => ({
+          id: station.id,
+          name: station.name,
+          bikesAvailable: station.bikesAvailable,
+          lat: station.x,
+          lon: station.y,
+        }));
 
     return stations;
   });
+};
+
+export const fetchFavoriteStations = () => {
+  return fetchStations().then(
+      stations => stations.filter(station => STATION_IDS.includes(station.id))
+  );
 };

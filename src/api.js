@@ -1,5 +1,8 @@
 const URL_DIGITRANSIT = 'https://api.digitransit.fi/routing/v1/routers/hsl/bike_rental';
 
+const STATION_STATE_ON = 'Station on';
+// const STATION_STATE_OFF = 'Station off';
+
 const STATION_IDS = ['021', '023', '030'];
 
 type Station = {
@@ -8,6 +11,7 @@ type Station = {
   bikesAvailable: int,
   lat: float,
   lon: float,
+  isOn: boolean,
 };
 
 export const fetchStations = () => {
@@ -19,6 +23,7 @@ export const fetchStations = () => {
           bikesAvailable: station.bikesAvailable,
           lat: station.x,
           lon: station.y,
+          isOn: station.state === STATION_STATE_ON,
         }));
 
     return stations;

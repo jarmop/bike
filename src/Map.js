@@ -26,11 +26,19 @@ const buildMap = (stations) => {
   ).addTo(map);
 
   stations.forEach(station => {
-    console.log(station);
+    let classNames = ['bike-station'];
+
+    if (!station.isOn) {
+      classNames.push('bike-station--off')
+    } else if (station.bikesAvailable === 0) {
+      classNames.push('bike-station--empty');
+    } else if (station.bikesAvailable < 4) {
+      classNames.push('bike-station--low');
+    }
 
     let divIcon = L.divIcon({
       html: station.bikesAvailable,
-      className: 'bike-station',
+      className: classNames.join(' '),
       iconSize: [BIKE_STATION_DIAMETER, BIKE_STATION_DIAMETER]
     });
     L.marker([station.lon, station.lat], {icon: divIcon}).addTo(map);

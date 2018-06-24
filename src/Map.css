@@ -12,3 +12,15 @@
     align-items: center;
     font-size: 10px;
 }
+
+.bike-station--off {
+    background-color: lightgray;
+}
+
+.bike-station--empty {
+    background-color: red;
+}
+
+.bike-station--low {
+    background-color: yellow;
+}

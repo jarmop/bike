@@ -3,8 +3,6 @@ const URL_DIGITRANSIT = 'https://api.digitransit.fi/routing/v1/routers/hsl/bike_
 const STATION_STATE_ON = 'Station on';
 // const STATION_STATE_OFF = 'Station off';
 
-const STATION_IDS = ['021', '023', '030'];
-
 type Station = {
   id: string,
   name: string,
@@ -28,10 +26,4 @@ export const fetchStations = () => {
 
     return stations;
   });
-};
-
-export const fetchFavoriteStations = () => {
-  return fetchStations().then(
-      stations => stations.filter(station => STATION_IDS.includes(station.id))
-  );
 };

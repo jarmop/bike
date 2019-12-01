@@ -15,6 +15,14 @@ const getUrl = (path) => {
 };
 
 class App extends Component {
+  constructor() {
+    super();
+
+    this.state = {
+      favoriteStations: ['021', '023', '030'],
+    };
+  }
+
   render() {
     return (
       <Router>
@@ -25,7 +33,7 @@ class App extends Component {
             <Link to={getUrl(PATH_MAP)}>Map</Link>
           </div>
           <div>
-            <Route exact path={getUrl(PATH_LIST)} component={List}/>
+            <Route exact path={getUrl(PATH_LIST)} render={() => <List favoriteStations={this.state.favoriteStations} />}/>
             <Route path={getUrl(PATH_MAP)} component={Map}/>
           </div>
         </div>

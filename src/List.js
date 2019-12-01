@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, {Component} from 'react';
 
 import * as api from './api';
 
@@ -8,28 +8,30 @@ class List extends Component {
 
     this.state = {
       stations: [],
-    }
+    };
   }
 
   componentDidMount() {
-    api.fetchFavoriteStations().then(stations =>
-      this.setState({
-        stations: stations,
-      })
+    api.fetchStations().then(stations =>
+        this.setState({
+          stations: stations.filter(
+              station => this.props.favoriteStations.includes(station.id)
+          ),
+        })
     );
   }
 
   render() {
     return (
-      <div>
         <div>
-          {this.state.stations.map(station =>
-            <div key={station.id}>
-              {station.name}: {station.bikesAvailable}
-            </div>
-          )}
+          <div>
+            {this.state.stations.map(station =>
+                <div key={station.id}>
+                  {station.name}: {station.bikesAvailable}
+                </div>
+            )}
+          </div>
         </div>
-      </div>
     );
   }
 }

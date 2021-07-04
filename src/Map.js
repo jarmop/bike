@@ -12,10 +12,7 @@ const CENTER_LATITUDE = 24.925;
 const CENTER_LONGITUDE = 60.168;
 
 const buildMap = (stations) => {
-  let map = L.map(CONTAINER_ID).setView(
-    [CENTER_LONGITUDE, CENTER_LATITUDE],
-    14
-  );
+  let map = L.map(CONTAINER_ID).locate({ setView: true, maxZoom: 14 });
 
   L.tileLayer(
     'https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token=pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpejY4NXVycTA2emYycXBndHRqcmZ3N3gifQ.rJcFIG214AriISLbB6B5aw',

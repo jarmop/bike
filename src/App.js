@@ -1,12 +1,12 @@
-import React, {Component} from 'react';
-import {BrowserRouter as Router, Route, Link} from 'react-router-dom';
+import React, { Component } from 'react';
+import { BrowserRouter as Router, Route, Link } from 'react-router-dom';
 
 import './App.css';
 import List from './List';
 import Map from './Map';
 
-const PATH_LIST = '/';
-const PATH_MAP = '/map';
+const PATH_LIST = '/list';
+const PATH_MAP = '/';
 
 // Make relative url absolute to fix routing on Github pages.
 const getUrl = (path) => {
@@ -33,8 +33,14 @@ class App extends Component {
             <Link to={getUrl(PATH_MAP)}>Map</Link>
           </div>
           <div>
-            <Route exact path={getUrl(PATH_LIST)} render={() => <List favoriteStations={this.state.favoriteStations} />}/>
-            <Route path={getUrl(PATH_MAP)} component={Map}/>
+            <Route
+              exact
+              path={getUrl(PATH_LIST)}
+              render={() => (
+                <List favoriteStations={this.state.favoriteStations} />
+              )}
+            />
+            <Route path={getUrl(PATH_MAP)} component={Map} />
           </div>
         </div>
       </Router>

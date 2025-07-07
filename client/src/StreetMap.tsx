@@ -13,7 +13,7 @@ const center: LatLngTuple = [60.1699, 24.9384];
 
 export function StreetMap() {
   const [stations] = useStations();
-  const maxCount = stations[0]?.count || 0;
+  const maxCount = stations[0]?.bikes || 0;
 
   return (
     <MapContainer
@@ -42,17 +42,21 @@ function SVGStation({ station }: { station: Station; maxCount: number }) {
     [stationCenter[0] + 0.005, stationCenter[1] + 0.01],
   ];
   const radius = 10;
+  const bikesOffRack = Math.max(0, station.bikes - station.capacity);
 
   const colorIntensity = 225;
   let fillColor = `rgb(0,0,${colorIntensity}`;
   let textColor = "#eee";
-  if (station.count < 3) {
+  if (station.freeSpaces === 0) {
+    fillColor = `rgb(${colorIntensity},0,0`;
+    textColor = "#eee";
+  } else if (station.bikes < 5) {
     fillColor = `rgb(${colorIntensity},${colorIntensity},${colorIntensity})`;
     textColor = "#333";
-  } else if (station.count < 10) {
+  } else if (station.bikes < 10) {
     fillColor = `rgb(${colorIntensity},${colorIntensity},0)`;
     textColor = "#333";
-  } else if (station.count < 30) {
+  } else if (station.bikes < 30) {
     fillColor = `rgb(0,${colorIntensity},${colorIntensity})`;
     textColor = "#333";
   }
@@ -65,7 +69,8 @@ function SVGStation({ station }: { station: Station; maxCount: number }) {
         radius={radius}
       >
         <Popup>
-          {station.name} <br /> {station.count} bikes
+          {station.name} <br /> {station.capacity - station.freeSpaces} /{" "}
+          {station.capacity} {bikesOffRack ? `(+ ${bikesOffRack})` : ""}
         </Popup>
       </CircleMarker>
       <SVGOverlay
@@ -82,13 +87,13 @@ function SVGStation({ station }: { station: Station; maxCount: number }) {
             fill={fillColor}
           />
           <text
-            x={station.count > 9 ? -5 : -3}
+            x={station.bikes > 9 ? -5 : -3}
             y="2.8"
             stroke={textColor}
             fontSize="10px"
             fontFamily="ariel"
           >
-            {station.count}
+            {station.bikes}
           </text>
         </g>
       </SVGOverlay>
@@ -102,7 +107,7 @@ function MarkerStation({ station }: { station: Station }) {
       <Popup>
         {station.name}
         <br />
-        {station.count} bikes
+        {station.bikes} bikes
       </Popup>
     </Marker>
   );

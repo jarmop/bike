@@ -6,10 +6,19 @@ const stationsQuery = {
   vehicleRentalStations {
     stationId
     name
-    allowPickup
     lat
     lon
+    capacity
+    operative
     availableVehicles {
+      byType {
+        count
+        vehicleType {
+          formFactor
+        }
+      }
+    }
+    availableSpaces {
       byType {
         count
         vehicleType {
@@ -22,7 +31,7 @@ const stationsQuery = {
 `,
 };
 
-type ByType = {
+export type ByType = {
   "count": number;
   "vehicleType": {
     "formFactor": "BICYCLE";
@@ -32,10 +41,14 @@ type ByType = {
 type VehicleRentalStation = {
   "stationId": string;
   "name": string;
-  "allowPickup": boolean;
   "lat": number;
   "lon": number;
+  "capacity": number;
+  "operative": boolean;
   "availableVehicles": {
+    "byType": ByType[];
+  };
+  "availableSpaces": {
     "byType": ByType[];
   };
 };

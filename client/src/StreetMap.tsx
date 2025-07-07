@@ -41,7 +41,7 @@ function SVGStation({ station }: { station: Station; maxCount: number }) {
     [stationCenter[0] + 0.005, stationCenter[1] + 0.01],
   ];
   const radius = 10;
-  const bikesOffRack = Math.max(0, station.bikes - station.capacity);
+  const bikesOffRack = station.bikes + station.freeSpaces - station.capacity;
 
   const colorIntensity = 225;
   let fillColor = `rgb(0,0,${colorIntensity}`;

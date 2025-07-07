@@ -50,9 +50,13 @@ export function useStations() {
     setStations(relevantData);
   };
 
+  function refreshStations() {
+    fetchData(true);
+  }
+
   useEffect(() => {
     fetchData();
   }, []);
 
-  return [stations, setStations] as const;
+  return [stations, refreshStations] as const;
 }

@@ -6,13 +6,12 @@ import {
   SVGOverlay,
   TileLayer,
 } from "react-leaflet";
-import { Station, useStations } from "./useStations.tsx";
+import { Station } from "./useStations.tsx";
 import { LatLngBoundsLiteral, LatLngTuple } from "leaflet";
 
 const center: LatLngTuple = [60.1699, 24.9384];
 
-export function StreetMap() {
-  const [stations] = useStations();
+export function StreetMap({ stations }: { stations: Station[] }) {
   const maxCount = stations[0]?.bikes || 0;
 
   return (
@@ -98,17 +97,5 @@ function SVGStation({ station }: { station: Station; maxCount: number }) {
         </g>
       </SVGOverlay>
     </>
-  );
-}
-
-function MarkerStation({ station }: { station: Station }) {
-  return (
-    <Marker key={station.name} position={[station.lat, station.lon]}>
-      <Popup>
-        {station.name}
-        <br />
-        {station.bikes} bikes
-      </Popup>
-    </Marker>
   );
 }

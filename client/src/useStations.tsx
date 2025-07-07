@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { queryStations } from "./api.ts";
 
-type Stations = {
+export type Station = {
   name: string;
   lat: number;
   lon: number;
@@ -9,7 +9,7 @@ type Stations = {
 };
 
 export function useStations() {
-  const [stations, setStations] = useState<Stations[]>([]);
+  const [stations, setStations] = useState<Station[]>([]);
 
   const fetchData = async (skipCache = false) => {
     const stations = await queryStations(skipCache);

@@ -55,7 +55,7 @@ function SVGStation({ station }: { station: Station; maxCount: number }) {
   } else if (station.bikes < 10) {
     fillColor = `rgb(${colorIntensity},${colorIntensity},0)`;
     textColor = "#333";
-  } else if (station.bikes < 30) {
+  } else if (station.bikes < 20) {
     fillColor = `rgb(0,${colorIntensity},${colorIntensity})`;
     textColor = "#333";
   }

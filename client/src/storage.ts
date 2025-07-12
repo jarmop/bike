@@ -1,18 +1,47 @@
-import { Station } from "./useStations.tsx";
+import { ApiResponse } from "./types.ts";
 
-export const APIKEY = "apikey";
-export const STATIONS = "stations";
-type KEY = "apikey" | "stations";
+type KEY = "api_key" | "api_response";
+type StoredApiResponse = ApiResponse & { timestamp: number };
 
-export function getData(key: KEY) {
+function getItem(key: KEY) {
   return localStorage.getItem(key);
 }
 
-export function setData(key: KEY, data: string) {
-  localStorage.setItem(key, data);
+function setItem(key: KEY, item: string) {
+  localStorage.setItem(key, item);
 }
 
-export function getStations() {
-  const stations = getData("stations");
-  return stations ? JSON.parse(stations) as Station[] : [];
+export function getApikey() {
+  return getItem("api_key");
+}
+
+export function setApiKey(apiKey: string) {
+  setItem("api_key", apiKey);
+}
+
+export function setApiResponse(apiResponse: ApiResponse) {
+  const storedApiResponse: StoredApiResponse = {
+    ...apiResponse,
+    timestamp: Date.now(),
+  };
+  setItem("api_response", JSON.stringify(storedApiResponse));
+}
+
+function getStoredApiResponse() {
+  const storedApiResponseString = getItem("api_response");
+  if (!storedApiResponseString) {
+    return undefined;
+  }
+
+  return JSON.parse(
+    storedApiResponseString,
+  ) as StoredApiResponse;
+}
+
+export function getApiResponse() {
+  return getStoredApiResponse() as ApiResponse | undefined;
+}
+
+export function getApiResponseTimestamp() {
+  return getStoredApiResponse()?.timestamp;
 }

@@ -1,4 +1,6 @@
 import response from "./response.json" with { type: "json" };
+import * as storage from "./storage.ts";
+import { ApiResponse } from "./types.ts";
 
 const stationsQuery = {
   query: `
@@ -31,44 +33,16 @@ const stationsQuery = {
 `,
 };
 
-export type ByType = {
-  "count": number;
-  "vehicleType": {
-    "formFactor": "BICYCLE";
-  };
-};
-
-type VehicleRentalStation = {
-  "stationId": string;
-  "name": string;
-  "lat": number;
-  "lon": number;
-  "capacity": number;
-  "operative": boolean;
-  "availableVehicles": {
-    "byType": ByType[];
-  };
-  "availableSpaces": {
-    "byType": ByType[];
-  };
-};
-
-type Response = {
-  "data": {
-    "vehicleRentalStations": VehicleRentalStation[];
-  };
-};
-
 export async function queryStations(
   skipCache = false,
-): Promise<Response | undefined> {
-  const cachedStations = localStorage.getItem("stations");
-  if (cachedStations && !skipCache) {
+): Promise<ApiResponse | undefined> {
+  const cachedApiResponse = storage.getApiResponse();
+  if (cachedApiResponse && !skipCache) {
     console.log("stations returned from cache");
-    return JSON.parse(cachedStations);
+    return cachedApiResponse;
   }
 
-  const apiKey = localStorage.getItem("apikey");
+  const apiKey = storage.getApikey();
   if (!apiKey) {
     console.log("apikey not found");
     return;
@@ -89,9 +63,9 @@ export async function queryStations(
     if (!response.ok) {
       throw new Error(`Response status: ${response.status}`);
     }
-    const json: Response = await response.json();
+    const json: ApiResponse = await response.json();
 
-    localStorage.setItem("stations", JSON.stringify(json));
+    storage.setApiResponse(json);
 
     return json;
   } catch (error) {

@@ -1,7 +1,6 @@
 import {
   CircleMarker,
   MapContainer,
-  Marker,
   Popup,
   SVGOverlay,
   TileLayer,

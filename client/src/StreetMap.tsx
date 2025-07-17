@@ -12,6 +12,7 @@ const center: LatLngTuple = [60.1699, 24.9384];
 
 export function StreetMap({ stations }: { stations: Station[] }) {
   const maxCount = stations[0]?.bikes || 0;
+  const stationsKey = btoa(JSON.stringify(stations.map((s) => s.bikes)));
 
   return (
     <MapContainer
@@ -26,8 +27,11 @@ export function StreetMap({ stations }: { stations: Station[] }) {
       />
 
       {stations.toReversed().map((s) => (
-        // <MarkerStation key={s.name} station={s} />
-        <SVGStation key={s.name} station={s} maxCount={maxCount} />
+        <SVGStation
+          key={s.name + stationsKey}
+          station={s}
+          maxCount={maxCount}
+        />
       ))}
     </MapContainer>
   );

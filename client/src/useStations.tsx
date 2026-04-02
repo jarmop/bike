@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
-import { ByType, queryStations } from "./api.ts";
+import { queryStations } from "./api.ts";
+import { ByType } from "./types.ts";
 
 export type Station = {
   name: string;
@@ -24,19 +25,17 @@ const fetchData = async (skipCache = false) => {
 
   const relevantData: Station[] = [];
   stations.data.vehicleRentalStations.forEach((s) => {
-    const availableVehicles = countFromByTypes(s.availableVehicles.byType);
-    const availableSpaces = countFromByTypes(s.availableSpaces.byType);
     if (
       s.operative &&
-      !s.stationId.includes("vantaa") &&
-      availableVehicles !== undefined && availableSpaces !== undefined
+      !s.stationId.includes("vantaa")
     ) {
+      const available = countFromByTypes(s.availableVehicles.byType) || 0;
       relevantData.push({
         name: s.name,
         lat: s.lat,
         lon: s.lon,
-        bikes: availableVehicles,
-        freeSpaces: availableSpaces,
+        bikes: available,
+        freeSpaces: Math.max(s.capacity - available, 0),
         capacity: s.capacity,
       });
     }
